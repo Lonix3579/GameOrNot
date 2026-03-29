@@ -1,0 +1,3 @@
+flet run main.py
+
+cd C:........
