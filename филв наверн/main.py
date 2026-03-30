@@ -610,10 +610,19 @@ def main(page: ft.Page):
         example_value = evaluate_expr(example_expr)
         if example_value is None:
             return False
-        answer_value = evaluate_complex_answer(answer_str)
-        if answer_value is None:
-            return False
-        return abs(example_value - answer_value) < 0.1
+
+        # Если ответ — число (простой и средний уровень)
+        if isinstance(answer_str, (int, float)):
+            return abs(example_value - answer_str) < 0.1
+
+        # Если ответ — строка с выражением (сложный уровень)
+        if isinstance(answer_str, str):
+            answer_value = evaluate_complex_answer(answer_str)
+            if answer_value is None:
+                return False
+            return abs(example_value - answer_value) < 0.1
+
+        return False
 
     def evaluate_complex_answer(answer_str):
         temp = answer_str
